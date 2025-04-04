@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 app.use("/uploads", express.static("uploads"));
 
-// Database Connection
+
 const db = mysql.createConnection({
     host: process.env.DB_HOST || "localhost",
     user: process.env.DB_USER || "root",
@@ -32,8 +32,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// Routes
-// POST: Add a new product
+
 app.post("/products", upload.single("image"), (req, res) => {
     const { name, description, price, category, stock } = req.body;
     const image = req.file ? req.file.filename : null;
@@ -45,7 +44,7 @@ app.post("/products", upload.single("image"), (req, res) => {
     });
 });
 
-// GET: Fetch all products
+
 app.get("/products", (req, res) => {
     db.query("SELECT * FROM products", (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
@@ -53,7 +52,7 @@ app.get("/products", (req, res) => {
     });
 });
 
-// PUT: Update a product
+
 app.put("/products/:id", upload.single("image"), (req, res) => {
     const { name, description, price, category, stock } = req.body;
     const image = req.file ? req.file.filename : null;
@@ -75,7 +74,7 @@ app.put("/products/:id", upload.single("image"), (req, res) => {
     });
 });
 
-// DELETE: Delete a product
+
 app.delete("/products/:id", (req, res) => {
     const { id } = req.params;
     db.query("DELETE FROM products WHERE id=?", [id], (err) => {
@@ -84,6 +83,6 @@ app.delete("/products/:id", (req, res) => {
     });
 });
 
-// Start Server
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
