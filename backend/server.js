@@ -15,7 +15,7 @@ const db = mysql.createConnection({
     host: process.env.DB_HOST || "localhost",
     user: process.env.DB_USER || "root",
     password: process.env.DB_PASS || "",
-    database: process.env.DB_NAME || "product_db"
+    database: process.env.DB_NAME || "product_management_database"
 });
 
 db.connect(err => {
